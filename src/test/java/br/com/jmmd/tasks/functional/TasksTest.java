@@ -1,24 +1,30 @@
 package br.com.jmmd.tasks.functional;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class TasksTest {
 	
-	public WebDriver acessarAplicacao() {
-		WebDriver driver = new ChromeDriver();
+	public WebDriver acessarAplicacao() throws MalformedURLException {
+		//WebDriver driver = new ChromeDriver();
+		//nova configuracao de destribuicao feita pelo grid do selenium que ira se conectar com outros nos.
+		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		WebDriver driver = new RemoteWebDriver(new URL("http://169.254.75.30:4444/wd/hub"), cap);
 		driver.navigate().to("http://localhost:8080/tasks");
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
 	
 	@Test
-	public void deveSalvarTarefaComSucesso() {
+	public void deveSalvarTarefaComSucesso() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		
 		try {
@@ -31,7 +37,7 @@ public class TasksTest {
 			
 			//definir uma data
 			
-			driver.findElement(By.id("dueDate")).sendKeys("18/06/2021");
+			driver.findElement(By.id("dueDate")).sendKeys("23/12/2021");
 			
 			//clicar em salvar
 			
@@ -50,7 +56,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void naoDeveSalvarTarefaSemDescricao() {
+	public void naoDeveSalvarTarefaSemDescricao() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		
 		try {
@@ -59,7 +65,7 @@ public class TasksTest {
 						
 			//definir uma data
 			
-			driver.findElement(By.id("dueDate")).sendKeys("18/06/2021");
+			driver.findElement(By.id("dueDate")).sendKeys("23/12/2021");
 			
 			//clicar em salvar
 			
@@ -79,7 +85,7 @@ public class TasksTest {
 	
 	
 	@Test
-	public void naoDeveSalvarTarefaSemData() {
+	public void naoDeveSalvarTarefaSemData() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		
 		try {
@@ -107,7 +113,7 @@ public class TasksTest {
 	}
 	
 	@Test
-	public void naoDeveSalvarTarefaComDataPassada() {
+	public void naoDeveSalvarTarefaComDataPassada() throws MalformedURLException {
 		WebDriver driver = acessarAplicacao();
 		
 		try {
