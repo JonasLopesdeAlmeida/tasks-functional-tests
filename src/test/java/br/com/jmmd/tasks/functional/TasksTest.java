@@ -17,8 +17,8 @@ public class TasksTest {
 		//WebDriver driver = new ChromeDriver();
 		//nova configuracao de destribuicao feita pelo grid do selenium que ira se conectar com outros nos.
 		DesiredCapabilities cap = DesiredCapabilities.chrome();
-		WebDriver driver = new RemoteWebDriver(new URL("http://169.254.75.30:4444/wd/hub"), cap);
-		driver.navigate().to("http://localhost:8080/tasks");
+		WebDriver driver = new RemoteWebDriver(new URL("http://192.168.0.14:4444/wd/hub"), cap);
+		driver.navigate().to("http://192.168.0.14:8080/tasks");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return driver;
 	}
@@ -101,7 +101,6 @@ public class TasksTest {
 			driver.findElement(By.id("saveButton")).click();
 			
 			//validar mensagem de sucesso
-			
 			String message = driver.findElement(By.id("message")).getText();
 			Assert.assertEquals("Fill the due date", message);
 		} finally {
